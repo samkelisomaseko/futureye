@@ -420,44 +420,109 @@
               font-family: 'Audiowide', cursive;
         }
 
-        .camera-controls {
-             position: absolute;
-             bottom: clamp(32px, 10vw, 48px);
-            left: 50%;
+        /* Custom Camera Controls Styles */
+        :root {
+            --primary-bg: #e0e0e0;
+            --button-bg: #d0d0d0;
+            --button-shadow: inset 2px 2px 5px #b8b8b8, inset -2px -2px 5px #ffffff;
+            --button-active-shadow: inset 2px 2px 5px #b8b8b8, inset -2px -2px 5px #ffffff, inset 2px 2px 5px #b8b8b8;
+            --text-color: #333333;
+            --icon-color: #666666;
+        }
+        .controls-container {
+            position: absolute;
+            bottom: clamp(16px, 4vw, 24px);
+             left: 50%;
             transform: translateX(-50%);
-             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(56px, 1fr)); /* Responsive grid */
-            gap: clamp(16px, 4vw, 24px);
-             max-width: calc(56px * 4 + 24px * 3); /* Maximum width to fit 4 buttons and gaps */
-            width: 100%; /* Ensure the container takes up the width */
-             padding: 0 clamp(10px, 4vw, 16px); /* Add some horizontal padding for small screens */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(10px, 2vw, 20px);
+            padding: clamp(10px, 2vw, 20px);
+             
+           
+           
         }
 
-          .camera-control-btn {
-              width: clamp(44px, 12vw, 56px);
-              height: clamp(44px, 12vw, 56px);
-            border-radius: 50%;
+         .d-pad {
+            position: relative;
+             width: clamp(120px, 25vw, 160px);
+            height: clamp(120px, 25vw, 160px);
             background-color: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-             display: flex;
-            align-items: center;
-             justify-content: center;
+            border-radius: 50%;
+            box-shadow: var(--button-shadow);
+        }
+
+        .d-pad-button {
+            position: absolute;
+            width: clamp(30px, 8vw, 40px);
+            height: clamp(30px, 8vw, 40px);
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
             border: none;
-             cursor: pointer;
-              transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: #ffffff;
+            box-shadow: var(--button-shadow);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .camera-control-btn:hover {
-            transform: scale(1.1);
+        .d-pad-button:active {
+            box-shadow: var(--button-active-shadow);
         }
 
-         .camera-control-btn svg {
-             width: clamp(20px, 7vw, 28px);
-             height: clamp(20px, 7vw, 28px);
-            color: white;
+        .up { top: 10px; left: 50%; transform: translateX(-50%); }
+        .right { right: 10px; top: 50%; transform: translateY(-50%); }
+        .down { bottom: 10px; left: 50%; transform: translateX(-50%); }
+        .left { left: 10px; top: 50%; transform: translateY(-50%); }
+
+        .center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+           width: clamp(40px, 8vw, 55px);
+            height: clamp(40px, 8vw, 55px);
+            background-color: transparent);
+            border-radius: 50%;
+            box-shadow: var(--button-shadow);
         }
 
-         @keyframes float {
+        .side-button {
+             width: clamp(36px, 8vw, 48px);
+            height: clamp(36px, 8vw, 48px);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            color: #ffffff;
+            box-shadow: var(--button-shadow);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .side-button:active {
+            box-shadow: var(--button-active-shadow);
+        }
+
+         .up::after { content: '+'; }
+        .down::after { content: '−'; }
+        .left::after { content: '<'; }
+        .right::after { content: '>'; }
+
+        /* End Custom Camera Control Styles */
+          @keyframes float {
              0%, 100% { transform: translateY(0); }
             50% { transform: translateY(clamp(-5px, -2vw, -10px)); }
         }
@@ -647,34 +712,26 @@
                 </button>
                  <div class="timer" id="cameraTimer">00:00:00</div>
             </div>
-            <div class="camera-controls">
-               <button class="camera-control-btn" data-action="rewind">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.5 19L8.5 12L15.5 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+           <!-- 3D Engraved Camera Controls -->
+            <div class="controls-container">
+                <button class="side-button mute-btn" aria-label="Mute">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="2" y1="2" x2="22" y2="22"></line>
                     </svg>
                 </button>
-                <button class="camera-control-btn" data-action="record">
-                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 12H18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 18V6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-               <button class="camera-control-btn" data-action="forward">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8.5 5L15.5 12L8.5 19" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                <button class="camera-control-btn" data-action="mute">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6 12H18" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                <button class="camera-control-btn" data-action="snapshot">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M6.44 2H17.55C21.11 2 22 2.89 22 6.44V12.77C22 16.33 21.11 17.21 17.56 17.21H6.44C2.89 17.22 2 16.33 2 12.78V6.44C2 2.89 2.89 2 6.44 2Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M12 17.22V22" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 13H22" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M7.5 22H16.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <div class="d-pad" role="group" aria-label="Camera controls">
+                    <button class="d-pad-button up" data-action="zoom-in" aria-label="Zoom in"></button>
+                    <button class="d-pad-button right" data-action="pan-right" aria-label="Pan right"></button>
+                    <button class="d-pad-button down" data-action="zoom-out" aria-label="Zoom out"></button>
+                    <button class="d-pad-button left" data-action="pan-left" aria-label="Pan left"></button>
+                    <div class="center" aria-hidden="true"></div>
+                </div>
+                <button class="side-button camera-btn" data-action  camera-btn" aria-label="Toggle camera">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                        <circle cx="12" cy="13" r="4"></circle>
                     </svg>
                 </button>
             </div>
@@ -715,6 +772,7 @@
            const addCamBtn = document.getElementById('addCamBtn');
         const addCameraForm = document.getElementById('addCameraForm');
          const closeModalBtn = document.getElementById('closeModalBtn')
+         const cameraControls = document.querySelector('.controls-container');
         let currentCameraData = null;
         let timerInterval;
         let timerSeconds = 0;
@@ -907,30 +965,28 @@
         // Add your logic here to control the camera based on the actions
            if(currentCameraData){
                const camera = camerasData.all.find(cam => cam.id === currentCameraData.id);
-                 if (action === 'record') {
-                   if (camera) {
-                        toggleRecording(camera.id);
-                   }
-              }
-            if(action === 'mute') {
-                 if(camera){
-                     toggleMute(camera.id);
-                 }
+                  if (action === 'mute') {
+                      if (camera) {
+                          toggleMute(camera.id);
+                      }
+                  } else if (action === 'record') {
+                      if (camera) {
+                          toggleRecording(camera.id);
+                      }
+                  } else if (action === 'zoom-in') {
+                        console.log('Zooming In');
+                    } else if (action === 'zoom-out') {
+                        console.log('Zooming out');
+                    } else if (action === 'pan-left') {
+                        console.log('Panning Left');
+                     } else if (action === 'pan-right') {
+                       console.log('Panning Right');
+                    } else if (action === 'camera-btn'){
+                        console.log('Toggling Camera');
+                    }
 
-              }
-               if (action === 'snapshot'){
-           // Capture snapshot from current camera
-             console.log('Snapshot action');
-          }
-           if (action === 'rewind') {
-              console.log('Rewinding camera feed...');
-               // Implement rewind logic here (e.g., move to a previous timestamp)
-             }
-           if (action === 'forward') {
-               console.log('Forwarding camera feed...');
-                //Implement forward logic here (e.g., move to next timestamp)
-                }
-        } else{
+
+           } else{
               console.error('No camera selected');
             }
 
@@ -1046,16 +1102,20 @@
             });
         });
 
-        // Camera Control Buttons
-         const cameraControlButtons = document.querySelectorAll('.camera-control-btn');
-            cameraControlButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const action = button.dataset.action;
-                 performCameraAction(action);
-            });
-        });
+         // Camera Control Buttons (3D Engraved)
+        cameraControls.addEventListener('click', (event) => {
+          const controlButton = event.target.closest('button[data-action], .d-pad-button[data-action]');
+          if (controlButton) {
+            const action = controlButton.dataset.action;
+           performCameraAction(action);
+         }
+     });
+          // prevent the touch action on camera control
+       cameraControls.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+    }, { passive: false });
 
-          addCamBtn.addEventListener('click', openModal);
+         addCamBtn.addEventListener('click', openModal);
             closeModalBtn.addEventListener('click', closeModal);
             addCameraForm.addEventListener('submit', handleAddCamera);
 
